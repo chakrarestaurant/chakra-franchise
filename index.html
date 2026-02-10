@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chakra Restaurant | Franchise Portal</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load QR Code Generator Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #AE9A65; /* Muted Gold/Beige */
+            --color-secondary: #333333; /* Deep Charcoal */
+            --color-background: #FFFFFF; /* Pure White */
+        }
+        .text-primary { color: var(--color-primary); }
+        .bg-primary { background-color: var(--color-primary); }
+        .text-secondary { color: var(--color-secondary); }
+        .bg-secondary { background-color: var(--color-secondary); }
+        .font-headline { font-family: 'Playfair Display', serif; }
+        .font-body { font-family: 'Inter', sans-serif; }
+        
+        .gold-gradient {
+            background: linear-gradient(135deg, #AE9A65 0%, #8e7d52 100%);
+        }
+        .step-card {
+            transition: transform 0.2s ease, shadow 0.2s ease;
+        }
+        .step-card:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Navigation Styles */
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link.active {
+            color: var(--color-primary);
+        }
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--color-primary);
+        }
+
+        /* View Switching Logic */
+        .view-section {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+        .view-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-[var(--color-background)] font-body antialiased text-stone-800">
+
+    <!-- Navigation Menu -->
+    <nav class="sticky top-0 z-50 bg-white shadow-sm border-b border-stone-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="flex justify-between items-center h-20">
+                <!-- Brand Logo -->
+                <div class="flex-shrink-0 cursor-pointer" onclick="showPage('home')">
+                    <h2 class="text-2xl font-headline font-bold text-primary">Chakra</h2>
+                    <p class="text-[10px] uppercase tracking-[0.2em] text-stone-400 font-bold -mt-1">Franchise</p>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex items-center space-x-8">
+                    <button onclick="showPage('home')" id="btn-home" class="nav-link text-xs font-bold uppercase tracking-widest text-secondary hover:text-primary active">Home</button>
+                    <button onclick="showPage('statement')" id="btn-statement" class="nav-link text-xs font-bold uppercase tracking-widest text-secondary hover:text-primary">Statement</button>
+                    <button onclick="showPage('application')" id="btn-application" class="nav-link text-xs font-bold uppercase tracking-widest text-secondary hover:text-primary">Application</button>
+                    <button onclick="showPage('privacy')" id="btn-privacy" class="nav-link text-xs font-bold uppercase tracking-widest text-secondary hover:text-primary">Privacy</button>
+                    <button onclick="showPage('training')" id="btn-training" class="bg-secondary text-white px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-stone-700 transition-all">Training Portal</button>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <div class="lg:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-secondary p-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-stone-100 p-4 space-y-4 shadow-xl">
+            <button onclick="showPage('home')" class="block w-full text-left text-xs font-bold uppercase tracking-widest text-secondary">Home</button>
+            <button onclick="showPage('statement')" class="block w-full text-left text-xs font-bold uppercase tracking-widest text-secondary">Information Statement</button>
+            <button onclick="showPage('application')" class="block w-full text-left text-xs font-bold uppercase tracking-widest text-secondary">Application Form</button>
+            <button onclick="showPage('privacy')" class="block w-full text-left text-xs font-bold uppercase tracking-widest text-secondary">Privacy Policy</button>
+            <button onclick="showPage('training')" class="block w-full text-center bg-primary text-white py-3 rounded-xl font-bold uppercase text-xs">Training Portal</button>
+        </div>
+    </nav>
+
+    <div id="main-content">
+        <!-- HOME PAGE VIEW (Full Original Booklet) -->
+        <section id="page-home" class="view-section active">
+            <!-- Header & Hero Section -->
+            <header class="bg-white py-16 px-4 border-b-8 border-primary shadow-sm">
+                <div class="max-w-5xl mx-auto">
+                    <h1 class="text-4xl sm:text-6xl font-headline font-bold mb-4 text-primary">
+                        Chakra Restaurant
+                    </h1>
+                    <p class="text-xl sm:text-2xl font-light border-l-4 border-primary pl-4 max-w-2xl italic text-black">
+                        Unlock the opportunity to own a piece of **Chakra Restaurant**, a vibrant brand rooted in culinary excellence and community spirit.
+                    </p>
+                </div>
+            </header>
+
+            <main class="max-w-5xl mx-auto p-6 lg:p-10">
+                <!-- Welcome Section -->
+                <section class="mb-16 p-8 bg-white rounded-2xl shadow-lg border-t-4 border-primary">
+                    <h2 class="text-3xl font-headline font-bold text-secondary mb-4">
+                        Welcome to the Chakra Restaurant Family!
+                    </h2>
+                    <p class="text-stone-600 leading-relaxed">
+                        Thank you for your interest in franchising with Chakra Restaurant. We are thrilled you're considering joining our vibrant and growing brand. This handbook provides you with essential information about our franchise opportunity, our values, and the steps involved in becoming a Chakra franchisee. We believe in fostering strong partnerships and are committed to supporting our franchisees every step of the way.
+                    </p>
+                </section>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chakra Franchise Opportunities | Join the Movement</title>
+    
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden; /* Prevents double scrollbars */
+            background-color: #000000; /* Matches a professional dark theme if Gamma is loading */
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <iframe 
+        src="https://gamma.app/embed/f9cvju6t300km5u" allow="fullscreen; autoplay" 
+        allowfullscreen>
+    </iframe>
+
+</body>
+</html>
+
+                <!-- 1. About Chakra Restaurant -->
+                <section class="mb-16">
+                    <h2 class="text-3xl font-headline font-bold text-secondary mb-6 border-b-2 border-primary/30 pb-2">
+                        1. About Chakra Restaurant
+                    </h2>
+                    <div class="bg-stone-50 p-8 rounded-2xl border border-stone-100">
+                        <p class="text-lg mb-4 text-stone-800 italic">
+                            Chakra Restaurant is a **multi-award winning progressive Indian dining destination** known for bringing iconic Indian dishes using local high-quality produce & contemporary presentation and serving them with Atithi Devo Bhava philosophy.
+                        </p>
+                        <p class="text-lg font-semibold text-primary">
+                            Our mission is to create an unforgettable Indian journey for our guests, placing Indian cuisine in the light of sophistication & experience.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- 2. Why Choose a Chakra Franchise? -->
+                <section class="mb-16">
+                    <h2 class="text-3xl font-headline font-bold text-secondary mb-6 border-b-2 border-primary/30 pb-2">
+                        2. Why Choose a Chakra Franchise?
+                    </h2>
+                    <div class="grid sm:grid-cols-3 gap-4 text-center mb-8">
+                        <div class="p-4 border border-primary/20 rounded-xl bg-primary/5 shadow-sm hover:border-primary transition-colors">
+                            <h4 class="text-lg font-bold text-stone-800">Award-Winning Brand</h4>
+                        </div>
+                        <div class="p-4 border border-primary/20 rounded-xl bg-primary/5 shadow-sm hover:border-primary transition-colors">
+                            <h4 class="text-lg font-bold text-stone-800">Proven Menu</h4>
+                        </div>
+                        <div class="p-4 border border-primary/20 rounded-xl bg-primary/5 shadow-sm hover:border-primary transition-colors">
+                            <h4 class="text-lg font-bold text-stone-800">Atithi Devo Bhava</h4>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="rounded-2xl overflow-hidden shadow-md">
+                            <img src="https://placehold.co/600x400/333333/AE9A65?text=Culinary+Mastery" alt="Culinary Excellence" class="w-full h-64 object-cover">
+                        </div>
+                        <ul class="space-y-4 text-stone-600">
+                            <li class="flex items-start">
+                                <span class="text-primary text-xl mr-3 font-bold">✓</span>
+                                <div><strong class="text-stone-800">Established Brand:</strong> Benefit from the recognition and reputation of a well-loved, award-winning concept.</div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-primary text-xl mr-3 font-bold">✓</span>
+                                <div><strong class="text-stone-800">Proven Business Model:</strong> Leverage our successful operational systems, training programs, and marketing strategies.</div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-primary text-xl mr-3 font-bold">✓</span>
+                                <div><strong class="text-stone-800">Comprehensive Support:</strong> Receive ongoing support in areas like site selection, training, marketing, and operations.</div>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- 3. The Investment -->
+                <section class="mb-16">
+                    <h2 class="text-3xl font-headline font-bold text-secondary mb-6 border-b-2 border-primary/30 pb-2">
+                        3. The Investment: Financial Overview
+                    </h2>
+                    <div class="overflow-x-auto shadow-lg rounded-2xl border border-stone-100">
+                        <table class="min-w-full bg-white divide-y divide-stone-200">
+                            <thead class="bg-secondary text-white">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-xs font-bold uppercase">Item</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold uppercase">Estimated Range</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold uppercase">Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-100">
+                                <tr>
+                                    <td class="px-6 py-4 font-bold">Initial Franchise Fee</td>
+                                    <td class="px-6 py-4">$50,000</td>
+                                    <td class="px-6 py-4 text-sm">Paid upon signing the Franchise Agreement.</td>
+                                </tr>
+                                <tr class="bg-stone-50">
+                                    <td class="px-6 py-4 font-bold">Fit-out / Improvements</td>
+                                    <td class="px-6 py-4">$250,000 - $450,000</td>
+                                    <td class="px-6 py-4 text-sm">Dependent on location size and condition.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-bold text-primary text-lg">TOTAL ESTIMATED INVESTMENT</td>
+                                    <td class="px-6 py-4 font-bold text-primary text-lg">$475,000 - $775,000</td>
+                                    <td class="px-6 py-4 text-sm font-bold">*Excludes real estate purchase.*</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 4. Support -->
+                <section class="mb-16">
+                    <h2 class="text-3xl font-headline font-bold text-secondary mb-6 border-b-2 border-primary/30 pb-2">
+                        4. Setting You Up For Success
+                    </h2>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-xl shadow border-l-4 border-primary">
+                            <h3 class="font-bold text-stone-900 mb-2">Phase 1: Pre-Opening</h3>
+                            <p class="text-sm text-stone-600">Site selection assistance, kitchen design blueprints, and construction guidance.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow border-l-4 border-primary">
+                            <h3 class="font-bold text-stone-900 mb-2">Phase 2: Launch</h3>
+                            <p class="text-sm text-stone-600">Comprehensive training program and on-site corporate opening support team.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow border-l-4 border-primary">
+                            <h3 class="font-bold text-stone-900 mb-2">Phase 3: Ongoing</h3>
+                            <p class="text-sm text-stone-600">Marketing assets, supply chain access, and continuous operational development.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. Formats -->
+                <section class="mb-16">
+                    <h2 class="text-3xl font-headline font-bold text-secondary mb-6 border-b-2 border-primary/30 pb-2">
+                        5. Flexible Restaurant Formats
+                    </h2>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="group">
+                            <div class="overflow-hidden rounded-2xl shadow-lg mb-4">
+                                <img src="https://placehold.co/600x400/AE9A65/333333?text=Chakra+Dining" alt="Chakra Dining" class="w-full h-48 object-cover group-hover:scale-105 transition-transform">
+                            </div>
+                            <h3 class="text-xl font-bold text-secondary">Chakra Flagship</h3>
+                            <p class="text-stone-600 text-sm">Full-service destination dining. Experience the Atithi Devo Bhava philosophy at its peak. (150-250m²)</p>
+                        </div>
+                        <div class="group">
+                            <div class="overflow-hidden rounded-2xl shadow-lg mb-4">
+                                <img src="https://placehold.co/600x400/333333/AE9A65?text=Good+Karma" alt="Good Karma" class="w-full h-48 object-cover group-hover:scale-105 transition-transform">
+                            </div>
+                            <h3 class="text-xl font-bold text-secondary">Good Karma</h3>
+                            <p class="text-stone-600 text-sm">Fast-casual model for high-traffic zones. Quality Indian cuisine for the busy lifestyle. (80-140m²)</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 7. THE 10 STEP APPLICATION PROCESS (RESTORED) -->
+                <section class="mb-20">
+                    <h2 class="text-3xl font-headline font-bold text-secondary mb-10 border-b-2 border-primary/30 pb-2">
+                        7. The Application Process: Your Journey to Ownership
+                    </h2>
+
+                    <div class="grid grid-cols-1 gap-12">
+                        
+                        <!-- Phase 01 -->
+                        <div class="flex items-center space-x-4 mb-2">
+                            <span class="px-3 py-1 bg-stone-200 text-stone-600 text-xs font-bold rounded-full">PHASE 01</span>
+                            <h2 class="text-2xl font-bold text-stone-800">Inquiry & Discovery</h2>
+                        </div>
+
+                        <!-- Step 1 -->
+                        <div class="step-card bg-white border border-stone-100 rounded-2xl p-8 shadow-sm">
+                            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                                <div class="md:w-1/3">
+                                    <div class="text-5xl font-black text-stone-100 mb-2">01</div>
+                                    <h3 class="text-2xl font-bold text-stone-900 mb-3">Initial Inquiry</h3>
+                                    <p class="text-stone-500 text-sm leading-relaxed">The spark of partnership. Fundamental contact and exchange.</p>
+                                </div>
+                                <div class="md:w-2/3 bg-stone-50 rounded-xl p-6 border border-stone-100">
+                                    <div class="space-y-4">
+                                        <div class="flex gap-4"><div class="w-24 flex-shrink-0 text-xs font-bold uppercase text-primary pt-1">Applicant</div><div class="text-stone-700 text-sm">Submit inquiry form via website or contact Franchise Development.</div></div>
+                                        <div class="border-t border-stone-200 pt-4 flex gap-4"><div class="w-24 flex-shrink-0 text-xs font-bold uppercase text-primary pt-1">Franchisor</div><div class="text-stone-700 text-sm">Provide initial kit: brand overview and preliminary process.</div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="step-card bg-white border border-stone-100 rounded-2xl p-8 shadow-sm">
+                            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                                <div class="md:w-1/3">
+                                    <div class="text-5xl font-black text-stone-100 mb-2">02</div>
+                                    <h3 class="text-2xl font-bold text-stone-900 mb-3">Franchise Application</h3>
+                                    <p class="text-stone-500 text-sm leading-relaxed">Detailed documentation of background and financial standing.</p>
+                                </div>
+                                <div class="md:w-2/3 bg-stone-50 rounded-xl p-6 border border-stone-100">
+                                    <div class="space-y-4">
+                                        <div class="flex gap-4"><div class="w-24 flex-shrink-0 text-xs font-bold uppercase text-primary pt-1">Applicant</div><div class="text-stone-700 text-sm">Complete comprehensive application detailing business experience.</div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="step-card bg-white border border-stone-100 rounded-2xl p-8 shadow-sm">
+                            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                                <div class="md:w-1/3">
+                                    <div class="text-5xl font-black text-stone-100 mb-2">03</div>
+                                    <h3 class="text-2xl font-bold text-stone-900 mb-3">Initial Screening</h3>
+                                    <p class="text-stone-500 text-sm leading-relaxed">Verification and evaluation of fundamental viability.</p>
+                                </div>
+                                <div class="md:w-2/3 bg-stone-50 rounded-xl p-6 border border-stone-100">
+                                    <div class="space-y-4">
+                                        <div class="flex gap-4"><div class="w-24 flex-shrink-0 text-xs font-bold uppercase text-primary pt-1">Franchisor</div><div class="text-stone-700 text-sm">Review credit scores and overall financial capacity.</div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phase 02 -->
+                        <div class="flex items-center space-x-4 mt-8 mb-2">
+                            <span class="px-3 py-1 bg-stone-200 text-stone-600 text-xs font-bold rounded-full">PHASE 02</span>
+                            <h2 class="text-2xl font-bold text-stone-800">Due Diligence & Assessment</h2>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="step-card bg-white border border-stone-100 rounded-2xl p-8 shadow-sm">
+                            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                                <div class="md:w-1/3">
+                                    <div class="text-5xl font-black text-stone-100 mb-2">04</div>
+                                    <h3 class="text-2xl font-bold text-stone-900 mb-3">Interview & Discovery</h3>
+                                    <p class="text-stone-500 text-sm leading-relaxed">Deep dive into cultural fit and business acumen.</p>
+                                </div>
+                                <div class="md:w-2/3 bg-stone-50 rounded-xl p-6 border border-stone-100">
+                                    <div class="space-y-4">
+                                        <div class="flex gap-4"><div class="w-24 flex-shrink-0 text-xs font-bold uppercase text-primary pt-1">Both</div><div class="text-stone-700 text-sm">Formal interviews to discuss brand values and expectations.</div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 5 -->
+                        <div class="step-card bg-white border border-stone-100 rounded-2xl p-8 shadow-sm">
+                            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                                <div class="md:w-1/3">
+                                    <div class="text-5xl font-black text-stone-100 mb-2">05</div>
+                                    <h3 class="text-2xl font-bold text-stone-900 mb-3">FDD Review</h3>
+                                    <p class="text-stone-500 text-sm leading-relaxed">Careful review of the legal foundation.</p>
+                                </div>
+                                <div class="md:w-2/3 bg-stone-50 rounded-xl p-6 border border-stone-100">
+                                    <div class="space-y-4">
+                                        <div class="flex gap-4"><div class="w-24 flex-shrink-0 text-xs font-bold uppercase text-primary pt-1">Franchisor</div><div class="text-stone-700 text-sm">Provide FDD containing fees and legal obligations.</div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 6 -->
+                        <div class="step-card bg-white border border-stone-100 rounded-2xl p-8 shadow-sm border-l-4 border-l-primary">
+                            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                                <div class="md:w-1/3">
+                                    <div class="text-5xl font-black text-stone-100 mb-2">06</div>
+                                    <h3 class="text-2xl font-bold text-stone-900 mb-3">Financial Qualification</h3>
+                                    <p class="text-stone-500 text-sm leading-relaxed">Demonstrating execution power.</p>
+                                </div>
+                                <div class="md:w-2/3 bg-stone-50 rounded-xl p-6 border border-stone-100">
+                                    <div class="space-y-4">
+                                        <div class="flex gap-4"><div class="w-24 flex-shrink-0 text-xs font-bold uppercase text-primary pt-1">Applicant</div><div class="text-stone-700 text-sm">Submit robust business plan and financial statements.</div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 7 -->
+                        <div class="step-card bg-white border border-stone-100 rounded-2xl p-8 shadow-sm">
+                            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                                <div class="md:w-1/3">
+                                    <div class="text-5xl font-black text-stone-100 mb-2">07</div>
+                                    <h3 class="text-2xl font-bold text-stone-900 mb-3">Background Checks</h3>
+                                    <p class="text-stone-500 text-sm leading-relaxed">Ensuring integrity across the network.</p>
+                                </div>
+                                <div class="md:w-2/3 bg-stone-50 rounded-xl p-6 border border-stone-100">
+                                    <div class="space-y-4">
+                                        <div class="flex gap-4"><div class="w-24 flex-shrink-0 text-xs font-bold uppercase text-primary pt-1">Franchisor</div><div class="text-stone-700 text-sm">Conduct comprehensive background and reference checks.</div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phase 03 -->
+                        <div class="flex items-center space-x-4 mt-8 mb-2">
+                            <span class="px-3 py-1 bg-stone-200 text-stone-600 text-xs font-bold rounded-full">PHASE 03</span>
+                            <h2 class="text-2xl font-bold text-stone-800">Finalization & Launch</h2>
+                        </div>
+
+                        <!-- Step 8 -->
+                        <div class="step-card bg-white border border-stone-100 rounded-2xl p-8 shadow-sm">
+                            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                                <div class="md:w-1/3">
+                                    <div class="text-5xl font-black text-stone-100 mb-2">08</div>
+                                    <h3 class="text-2xl font-bold text-stone-900 mb-3">Site Selection</h3>
+                                    <p class="text-stone-500 text-sm leading-relaxed">Collaborative effort to identify prime locations.</p>
+                                </div>
+                                <div class="md:w-2/3 bg-stone-50 rounded-xl p-6 border border-stone-100">
+                                    <div class="space-y-4">
+                                        <div class="flex gap-4"><div class="w-24 flex-shrink-0 text-xs font-bold uppercase text-primary pt-1">Both</div><div class="text-stone-700 text-sm">Identify suitable physical location based on criteria.</div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 9 -->
+                        <div class="step-card bg-white border border-stone-100 rounded-2xl p-8 shadow-sm">
+                            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                                <div class="md:w-1/3">
+                                    <div class="text-5xl font-black text-stone-100 mb-2">09</div>
+                                    <h3 class="text-2xl font-bold text-stone-900 mb-3">Agreement Negotiation</h3>
+                                    <p class="text-stone-500 text-sm leading-relaxed">Precise legal terms discussed and agreed.</p>
+                                </div>
+                                <div class="md:w-2/3 bg-stone-50 rounded-xl p-6 border border-stone-100">
+                                    <div class="space-y-4">
+                                        <div class="flex gap-4"><div class="w-24 flex-shrink-0 text-xs font-bold uppercase text-primary pt-1">Both</div><div class="text-stone-700 text-sm">Finalize franchise agreement; legal counsel recommended.</div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 10 -->
+                        <div class="step-card bg-secondary text-white rounded-2xl p-8 shadow-xl">
+                            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                                <div class="md:w-1/3">
+                                    <div class="text-5xl font-black text-stone-800 mb-2">10</div>
+                                    <h3 class="text-2xl font-bold text-primary mb-3 font-headline">Final Approval & Signing</h3>
+                                    <p class="text-stone-400 text-sm leading-relaxed">The start of your new chapter.</p>
+                                </div>
+                                <div class="md:w-2/3 bg-stone-800 rounded-xl p-6 border border-stone-700">
+                                    <div class="space-y-4 text-stone-200">
+                                        <div class="flex gap-4"><div class="w-24 flex-shrink-0 text-xs font-bold uppercase text-primary pt-1">Both</div><div class="text-sm">Execution of agreement; payment of initial fee. Onboarding begins.</div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Financial Summary Restored -->
+                <section class="mb-16 p-8 bg-secondary text-white rounded-2xl shadow-xl border-b-8 border-primary">
+                    <h2 class="text-3xl font-headline font-bold mb-4 border-b-2 border-primary/50 pb-2">
+                        8. Financial Information Summary
+                    </h2>
+                    <p class="mb-4 text-stone-300">Our model is built on proven success, aiming to maximize returns through efficient operations.</p>
+                    <p class="text-lg font-bold text-primary italic">*Detailed representations included in the FDD.*</p>
+                </section>
+
+                <!-- Contact & QR Restored -->
+                <section class="text-center p-12 bg-white rounded-3xl shadow-2xl border border-stone-100">
+                    <h2 class="text-3xl font-headline font-bold text-secondary mb-4">Take the Next Step</h2>
+                    <p class="text-xl text-stone-600 mb-8 font-light italic">Join the Chakra Restaurant family today.</p>
+                    <div class="flex flex-col items-center">
+                         <div id="qrcode" class="mb-4 p-4 bg-white border border-stone-100 rounded-xl"></div>
+                         <p class="text-stone-800 font-bold mb-2">Contact Us</p>
+                         <a href="mailto:franchise@chakrarestaurant.com.au" class="text-primary hover:underline">franchise@chakrarestaurant.com.au</a>
+                    </div>
+                </section>
+            </main>
+        </section>
+
+        <!-- VIEW PLACEHOLDERS (FOR FUTURE INTEGRATION) -->
+        <section id="page-statement" class="view-section">
+            <main class="max-w-5xl mx-auto p-10 min-h-screen text-center">
+                <h2 class="text-3xl font-headline font-bold text-primary mb-4">Franchise Information Statement</h2>
+                <!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chakra Restaurant Franchise Information</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Warm Saffron & Stone -->
+    <!-- Application Structure Plan: This SPA uses a top-fixed navigation bar and a single, scrollable page with thematic sections. The flow is designed for a prospective franchisee: 1. Brand story (About), 2. Financials (Opportunity), 3. Next steps (Process), 4. Legal details (Rights), 5. Contact. This structure prioritizes the user's key questions (What is it? What's the deal? How do I start?) over the original document's legalistic order, making the information more engaging and easier to navigate. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Ongoing Fees (Royalty 6%, Phone 2%, Marketing 2%). Goal: Compare fee components. Viz: Doughnut Chart. Interaction: Hover for tooltips. Justification: Visually breaks down the ongoing 10% commitment, which is clearer than a text list. Library: Chart.js (Canvas).
+        - Report Info: Initial Franchise Fee ($50,000). Goal: Highlight key figure. Viz: "Key Figure" callout card. Interaction: None. Justification: Gives this single, critical number high visual prominence. Library: HTML/Tailwind.
+        - Report Info: Steps to Becoming a Franchisee (6 steps). Goal: Organize a process. Viz: Vertical "Stepper" diagram. Interaction: None (static visual). Justification: Transforms a text list into a clear, visual journey, which is more engaging. Library: HTML/Tailwind.
+        - Report Info: Franchisee Rights & Advice. Goal: Inform/Organize. Viz: Thematic content cards. Interaction: None. Justification: Breaks down dense legal text into manageable, easily readable chunks. Library: HTML/Tailwind.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .text-chakra-primary { color: #AE9A65; }
+        .bg-chakra-primary { background-color: #AE9A65; }
+        .border-chakra-primary { border-color: #AE9A65; }
+        .hover\:text-chakra-primary:hover { color: #AE9A65; }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800">
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-16">
+
+        <section id="about" class="py-16">
+            <div class="text-center max-w-3xl mx-auto">
+                <h1 class="text-4xl font-bold text-chakra-primary sm:text-5xl">Welcome to Chakra</h1>
+                <p class="mt-4 text-xl text-stone-700">A Multi-Award-Winning Progressive Indian Dining Destination</p>
+            </div>
+            <div class="mt-12 max-w-4xl mx-auto">
+                <p class="text-lg text-stone-700 leading-relaxed">
+                    This interactive statement provides essential details about the Chakra Restaurant franchise opportunity and your rights under the Franchising Code of Conduct. Here, you can explore our brand, the financial opportunity, the steps to join us, and the key information you need to make an informed decision.
+                </p>
+                <blockquote class="mt-8 p-6 bg-white shadow-sm rounded-lg border-l-4 border-chakra-primary">
+                    <h3 class="text-xl font-semibold text-stone-800">Our Service Philosophy</h3>
+                    <p class="mt-3 text-2xl font-semibold text-stone-700 italic">"Atithi Devo Bhava" (Guest is God)</p>
+                    <p class="mt-3 text-lg text-stone-700">
+                        Our mission is to create an unforgettable Indian journey for our guests, placing Indian cuisine in the light of sophistication and experience. We are known for bringing iconic Indian dishes to life using high-quality local produce and contemporary presentation.
+                    </p>
+                </blockquote>
+            </div>
+        </section>
+
+        <hr class="border-stone-200">
+
+        <section id="opportunity" class="py-16">
+            <h2 class="text-3xl font-bold text-center text-stone-800 sm:text-4xl">The Franchise Opportunity</h2>
+            <p class="mt-4 text-lg text-center text-stone-700 max-w-2xl mx-auto">
+                We offer a comprehensive franchise model established in 2017. This section breaks down the key financial commitments and franchise types available.
+            </p>
+
+            <div class="mt-12 grid md:grid-cols-2 gap-8 items-center">
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-sm font-semibold text-chakra-primary uppercase tracking-wide">Initial Franchise Fee</h3>
+                        <p class="text-5xl font-bold text-stone-800 mt-2">AUD $50,000</p>
+                        <p class="text-stone-600 mt-1">(plus GST)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-sm font-semibold text-chakra-primary uppercase tracking-wide">Type of Franchise Offered</h3>
+                        <p class="text-xl font-semibold text-stone-800 mt-2">Single-unit, Multi-unit, Area Development.</p>
+                    </div>
+                     <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-sm font-semibold text-chakra-primary uppercase tracking-wide">Existing Franchises</h3>
+                        <p class="text-xl font-semibold text-stone-800 mt-2">0 (This is a new franchise system)</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold text-center text-stone-800">Ongoing Fee Breakdown</h3>
+                    <p class="text-center text-stone-600 text-sm">Based on % of gross sales</p>
+                    <div class="chart-container mt-4">
+                        <canvas id="feesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-stone-200">
+
+        <section id="process" class="py-16">
+            <h2 class="text-3xl font-bold text-center text-stone-800 sm:text-4xl">Steps to Becoming a Franchisee</h2>
+            <p class="mt-4 text-lg text-center text-stone-700 max-w-2xl mx-auto">
+                We follow a structured process to ensure both you and our brand are the right fit. Here is the clear, step-by-step journey to opening your own Chakra Restaurant.
+            </p>
+
+            <div class="mt-12 max-w-2xl mx-auto">
+                <div class="space-y-8 relative">
+                    <div class="absolute left-4 top-4 bottom-4 w-0.5 bg-stone-300" aria-hidden="true"></div>
+                    
+                    <div class="relative flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-chakra-primary rounded-full flex items-center justify-center text-white font-bold z-10">1</div>
+                        <div class="flex-1 bg-white p-6 rounded-lg shadow-sm">
+                            <h3 class="text-lg font-semibold text-stone-800">Expression of Interest</h3>
+                            <p class="mt-1 text-stone-700">Contact us via the details below to start the conversation.</p>
+                        </div>
+                    </div>
+
+                    <div class="relative flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-chakra-primary rounded-full flex items-center justify-center text-white font-bold z-10">2</div>
+                        <div class="flex-1 bg-white p-6 rounded-lg shadow-sm">
+                            <h3 class="text-lg font-semibold text-stone-800">Preliminary Screening</h3>
+                            <p class="mt-1 text-stone-700">We will have an initial discussion and ask you to complete a franchise application form.</p>
+                        </div>
+                    </div>
+
+                    <div class="relative flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-chakra-primary rounded-full flex items-center justify-center text-white font-bold z-10">3</div>
+                        <div class="flex-1 bg-white p-6 rounded-lg shadow-sm">
+                            <h3 class="text-lg font-semibold text-stone-800">Review Disclosure Documents</h3>
+                            <p class="mt-1 text-stone-700">You will receive the FDD and Key Facts Sheet to review with your legal and financial advisors.</p>
+                        </div>
+                    </div>
+
+                    <div class="relative flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-chakra-primary rounded-full flex items-center justify-center text-white font-bold z-10">4</div>
+                        <div class="flex-1 bg-white p-6 rounded-lg shadow-sm">
+                            <h3 class="text-lg font-semibold text-stone-800">Interviews & Due Diligence</h3>
+                            <p class="mt-1 text-stone-700">Participate in further interviews and assessments. This is your time to ask detailed questions.</p>
+                        </div>
+                    </div>
+
+                    <div class="relative flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-chakra-primary rounded-full flex items-center justify-center text-white font-bold z-10">5</div>
+                        <div class="flex-1 bg-white p-6 rounded-lg shadow-sm">
+                            <h3 class="text-lg font-semibold text-stone-800">Franchise Agreement</h3>
+                            <p class="mt-1 text-stone-700">Upon mutual approval, you will sign the franchise agreement and pay the initial franchise fee.</p>
+                        </div>
+                    </div>
+
+                    <div class="relative flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-chakra-primary rounded-full flex items-center justify-center text-white font-bold z-10">6</div>
+                        <div class="flex-1 bg-white p-6 rounded-lg shadow-sm">
+                            <h3 class="text-lg font-semibold text-stone-800">Training & Onboarding</h3>
+                            <p class="mt-1 text-stone-700">Attend our comprehensive training program and prepare for your restaurant opening.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-stone-200">
+
+        <section id="rights" class="py-16">
+            <h2 class="text-3xl font-bold text-center text-stone-800 sm:text-4xl">Your Rights & Important Advice</h2>
+            <p class="mt-4 text-lg text-center text-stone-700 max-w-2xl mx-auto">
+                As a prospective franchisee, you are protected by the Franchising Code of Conduct. This section outlines your key rights and the essential advice we strongly recommend you follow.
+            </p>
+
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-teal-600">
+                    <h3 class="text-xl font-semibold text-teal-700">Franchise Disclosure Document (FDD)</h3>
+                    <p class="mt-2 text-stone-700">You must receive a complete FDD at least 14 days before signing any agreement. It contains vital, detailed information about the franchise, its financials, and your obligations.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-teal-600">
+                    <h3 class="text-xl font-semibold text-teal-700">Key Facts Sheet</h3>
+                    <p class="mt-2 text-stone-700">You will also receive this document, which summarizes the FDD's most critical information in a clear, standard format.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-teal-600">
+                    <h3 class="text-xl font-semibold text-teal-700">14-Day Cooling-off Period</h3>
+                    <p class="mt-2 text-stone-700">After signing the franchise agreement, you have a 14-day cooling-off period during which you can terminate the agreement.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-teal-600">
+                    <h3 class="text-xl font-semibold text-teal-700">Training, Support & Territory</h3>
+                    <p class="mt-2 text-stone-700">We provide comprehensive training and ongoing support. You will also be granted an exclusive territory. Full details are in the FDD.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-red-600">
+                    <h3 class="text-xl font-semibold text-red-700">Seek Independent Advice</h3>
+                    <p class="mt-2 text-stone-700">We strongly recommend that you seek independent legal, financial, and business advice before entering into any franchise agreement.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-red-600">
+                    <h3 class="text-xl font-semibold text-red-700">Conduct Your Own Due Diligence</h3>
+                    <p class="mt-2 text-stone-700">You should carefully investigate the franchise opportunity, review all documents, and speak with your advisors before making any commitment.</p>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-stone-200">
+
+        <section id="contact" class="py-16">
+            <h2 class="text-3xl font-bold text-center text-stone-800 sm:text-4xl">Contact & Franchisor Details</h2>
+             <p class="mt-4 text-lg text-center text-stone-700 max-w-2xl mx-auto">
+                Ready to take the next step or have more questions? Please reach out to our team. Below you will also find the formal details of the franchisor.
+            </p>
+
+            <div class="mt-12 max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-semibold text-chakra-primary">Franchise Enquiries</h3>
+                    <p class="mt-4 text-lg font-semibold text-stone-800">Saurabh Kumar</p>
+                    <p class="text-stone-600">Co-Founder & General Manager</p>
+                    <ul class="mt-4 space-y-2">
+                        <li class="flex items-center">
+                            <span class="w-6 h-6 text-teal-600 mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.836-.184-5.25-2.6-5.433-5.433l1.293-.97c.362-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>
+                            </span>
+                            <a href="tel:+61430749700" class="text-stone-700 hover:text-chakra-primary">+61 430 749 700</a>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-6 h-6 text-teal-600 mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
+                            </span>
+                            <a href="mailto:franchise@chakrarestaurant.com.au" class="text-stone-700 hover:text-chakra-primary">franchise@chakrarestaurant.com.au</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-stone-100 p-8 rounded-lg border border-stone-200">
+                    <h3 class="text-2xl font-semibold text-stone-800">Franchisor Details</h3>
+                    <ul class="mt-4 space-y-2 text-stone-700">
+                        <li><strong>Full Legal Name:</strong> The Taste Movement Pty Ltd</li>
+                        <li><strong>Trading Name:</strong> Chakra Restaurant</li>
+                        <li><strong>ABN:</strong> 69 605 437 885</li>
+                        <li><strong>Head Office:</strong> 48 Delphine Avenue, Dianella, WA, 6059</li>
+                        <li><strong>Franchise Web:</strong> www.chakrarestaurant.com.au/franchise</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-16 text-center max-w-3xl mx-auto">
+                <h3 class="text-xl font-semibold text-stone-800">Statement by Franchisor</h3>
+                <p class="mt-3 text-stone-700 italic">
+                    "This Information Statement is provided to you in accordance with the Franchising Code of Conduct. It is intended to provide you with key information about the franchise opportunity. However, it is essential that you read the Franchise Disclosure Document (FDD) and Key Facts Sheet carefully and seek independent legal, financial, and business advice before making any decision."
+                </p>
+                <p class="mt-4 text-sm text-stone-500">Date of Issue: November, 12, 2025.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-800 text-stone-300 py-6">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
+            <p>&copy; 2025 The Taste Movement Pty Ltd. All rights reserved.</p>
+            <p class="mt-1">This is an information statement and not an offer to sell a franchise.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const feeData = {
+                labels: [
+                    'Ongoing Royalty Fee (6%)',
+                    'Phone Reservations & Order Taking Fee (2%)',
+                    'Marketing Fund Contribution (2%)'
+                ],
+                datasets: [{
+                    label: 'Ongoing Fees (% of Gross Sales)',
+                    data: [6, 2, 2],
+                    backgroundColor: [
+                        '#AE9A65', 
+                        '#0D9488', 
+                        '#115E59'  
+                    ],
+                    hoverOffset: 4
+                }]
+            };
+
+            const feeConfig = {
+                type: 'doughnut',
+                data: feeData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#44403c', 
+                                padding: 15,
+                                font: {
+                                    size: 12,
+                                    family: 'Inter, sans-serif'
+                                }
+                            }
+                        },
+                        tooltip: {
+                            bodyFont: {
+                                size: 14,
+                                family: 'Inter, sans-serif'
+                            },
+                            titleFont: {
+                                size: 12,
+                                family: 'Inter, sans-serif'
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                },
+            };
+
+            const feesChartCtx = document.getElementById('feesChart').getContext('2d');
+            new Chart(feesChartCtx, feeConfig);
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
+            
+            
+            
+
+            
+            
+        });
+    </script>
+
+</body>
+</html>
+
+            </main>
+        </section>
+
+        <section id="page-application" class="view-section">
+    <main class="max-w-5xl mx-auto p-10 min-h-screen text-center">
+        <div class="text-center mb-10">
+            <h2 class="text-3xl font-headline font-bold text-primary mb-2">Franchise Application Form</h2>
+            <p class="text-stone-500 italic">Please complete the formal application below.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl border border-stone-100 overflow-hidden">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdDt3jZ4Swf025GxARr4gbN64p7Z_eA23IC9JWOQhrZPCzmYg/viewform?embedded=true" width="100%" height="4500" frameborder="0" marginheight="0" marginwidth="0"style="width: 100%; min-height: 4500px;">Loading…</iframe>
+        </div>
+    </main>
+</section>
+
+        <section id="page-privacy" class="view-section">
+            <main class="max-w-5xl mx-auto p-10 min-h-screen text-center">
+                <h2 class="text-3xl font-headline font-bold text-primary mb-4">Franchise Privacy Policy</h2>
+                <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-R-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chakra Franchise Applicant Privacy Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Chakra Primary (Black, White, Gold) -->
+    <!-- Application Structure Plan: A single, scrolling-page layout. The original 9-section linear document is organized into 5 thematic sections, each introduced by a clear heading. This structure allows for a simple, linear consumption of the information, similar to a traditional document but enhanced with web styling. Key Interactions: Within the 'Your Information' section, the four categories of collected data (Personal, Professional, Financial, Background) are presented as clickable accordions. This breaks down a long, intimidating list into manageable pieces, reducing cognitive load. User Flow: User lands and scrolls down to read the policy from top to bottom. They can click accordion toggles to expand and see details. This design was chosen for simplicity and to feel like a formal, single document. -->
+    <!-- Visualization & Content Choices: Info: Sec 1 (Introduction) -> Goal: Inform/Overview -> Method: Text block (Top of page). -> Interaction: None. -> Justification: Sets the stage. -> Library: HTML. | Info: Sec 2 (What We Collect) -> Goal: Organize/Inform -> Method: Interactive Accordion List under 'Your Information' heading. -> Interaction: Click to expand/collapse each data category. -> Justification: Transforms a long, overwhelming bullet list into 4 digestible, user-initiated reveals. -> Library: HTML/JS. | Info: Sec 3 (How We Use) & Sec 4 (How We Share) -> Goal: Inform/Organize -> Method: Two text blocks under 'Our Process' heading. -> Interaction: None. -> Justification: Logically groups *our* actions with the data. -> Library: HTML. | Info: Sec 5 (Security), 6 (Retention), 7 (Rights) -> Goal: Inform/Organize -> Method: Three text blocks under 'Safeguards & Rights' heading. -> Interaction: None. -> Justification: Groups all user-centric protections and rights. -> Library: HTML. | Info: Sec 8 (Changes) & 9 (Contact) -> Goal: Inform -> Method: Two text blocks under 'Contact & Changes' heading. -> Interaction: None. -> Justification: Standard administrative info. -> Library: HTML. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        :root {
+            --color-bg: #FFFFFF;
+            --color-text: #262626;
+            --color-text-muted: #525252;
+            --color-border: #E5E7EB;
+            --color-accent: #AE9A65;
+            --color-accent-dark: #AE9A65;
+            --color-accent-light: #FBF9F5;
+        }
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-family: 'Inter', sans-serif;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        
+        .prose-custom ul {
+            list-style-position: outside;
+            padding-left: 1.25rem;
+        }
+        .prose-custom li {
+            padding-left: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .accordion-item {
+            border: 1px solid var(--color-border);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            background-color: #ffffff;
+            transition: all 0.3s ease;
+        }
+        .accordion-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.125rem;
+            font-weight: 500;
+            text-align: left;
+            color: var(--color-accent-dark);
+            background-color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .accordion-toggle:hover {
+            background-color: var(--color-accent-light);
+        }
+        .accordion-toggle span {
+            /* transition: transform 0.3s ease; */
+            font-size: 1.25rem;
+            color: var(--color-accent);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            padding: 0 1.5rem;
+        }
+        /*
+        .accordion-item.open .accordion-toggle span {
+            transform: rotate(180deg);
+        }
+        */
+        .accordion-item.open .accordion-content {
+            max-height: 1000px;
+            padding: 0.5rem 1.5rem 1.5rem 1.5rem;
+            transition: max-height 0.5s ease-in, padding 0.5s ease-in;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+        
+        <header class="mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2" style="color: var(--color-accent-dark);">Chakra Franchise Applicant Privacy Hub</h1>
+            <p class="text-lg md:text-xl" style="color: var(--color-text-muted);">An interactive guide to how we handle your information during the application process.</p>
+        </header>
+
+        <main class="mt-8">
+
+            <section class="prose-custom max-w-none mb-12">
+                <p class="text-lg" style="color: var(--color-text-muted);">Welcome. This hub explains how Chakra Restaurant ("we," "us," or "our") protects the privacy of our prospective franchise applicants ("you"). We value the trust you place in us by providing your personal and financial information, and this guide details how we collect, use, share, and protect that data during the application, evaluation, and discovery process.</p>
+                <p>This policy applies *exclusively* to information collected from you as a prospective franchisee, including any partners or co-applicants. It is separate from our customer-facing privacy policy. The handling of your information, should you become a franchisee, will be governed by the provisions of the Franchise Agreement.</p>
+            </section>
+
+            <hr class="my-12" style="border-color: var(--color-border);">
+
+            <section class="mb-12">
+                <h2 class="text-3xl font-semibold mb-6" style="color: var(--color-accent-dark);">Your Information</h2>
+                <p class="text-lg mb-6" style="color: var(--color-text-muted);">To thoroughly evaluate your application, we must collect significant personal, professional, and financial information. This data is collected directly from you (via forms, emails, interviews) and, with your authorization, from third-party services for verification. Click each category below to see what's included.</p>
+                
+                <div class="space-y-4" id="accordion-container">
+                    
+                    <div class="accordion-item">
+                        <button class="accordion-toggle">
+                            <span>Personal and Contact Information</span>
+                            <span>&#9660;</span>
+                        </button>
+                        <div class="accordion-content prose-custom max-w-none">
+                            <ul class="list-disc">
+                                <li>Full legal name, and any former names</li>
+                                <li>Home address, email address(es), and phone number(s)</li>
+                                <li>Date of birth</li>
+                                <li>Government-issued identification (e.g., Driver's Licence, Passport details) for identity verification</li>
+                                <li>Citizenship and/or residency status</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-toggle">
+                            <span>Professional and Business Information</span>
+                            <span>&#9660;</span>
+                        </button>
+                        <div class="accordion-content prose-custom max-w-none">
+                            <ul class="list-disc">
+                                <li>Complete employment history (Resumes, CVs)</li>
+                                <li>Detailed business experience, relevant skills, and qualifications</li>
+                                <li>Information about any current or former business ownership, including corporate/entity names, registration details, and articles of incorporation</li>
+                                <li>History of any litigation, arbitration, or regulatory actions related to your business dealings</li>
+                                <li>Personal and professional references</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-toggle">
+                            <span class="font-bold">Financial Information (Highly Sensitive)</span>
+                            <span>&#9660;</span>
+                        </button>
+                        <div class="accordion-content prose-custom max-w-none">
+                            <ul class="list-disc">
+                                <li>Detailed personal and business financial statements (e.g., balance sheets, profit & loss statements)</li>
+                                <li>Comprehensive breakdowns of your assets, liabilities, and total net worth</li>
+                                <li>Information on your sources of funds and proof of liquid capital (e.g., bank statements, investment account statements)</li>
+                                <li>Credit history and credit score</li>
+                                <li>Personal and business tax returns or notices of assessment for a specified period</li>
+                                <li>History of bankruptcy or insolvency, if any</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-toggle">
+                            <span>Background and Verification Information</span>
+                            <span>&#9660;</span>
+                        </button>
+                        <div class="accordion-content prose-custom max-w-none">
+                            <ul class="list-disc">
+                                <li>Information required for criminal background checks (national and/or international)</li>
+                                <li>Information required for credit checks (personal and business)</li>
+                                <li>Verification of educational degrees and professional licenses</li>
+                                <li>Civil litigation records</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <hr class="my-12" style="border-color: var(--color-border);">
+
+            <section class="prose-custom max-w-none mb-12">
+                <h2 class="text-3xl font-semibold mb-6" style="color: var(--color-accent-dark);">Our Process</h2>
+                <p class="text-lg mb-6" style="color: var(--color-text-muted);">We use your information strictly for purposes related to the franchise application process. This section details how we use your data and the limited circumstances under which we might share it.</p>
+
+                <h3 class="text-2xl font-semibold" style="color: var(--color-accent-dark);">How We Use Your Information</h3>
+                <ul class="list-disc">
+                    <li><strong>Application Evaluation:</strong> To assess your suitability, qualifications, business acumen, and financial capacity to own and operate a Chakra Restaurant franchise. This includes financial modeling and reviewing your proposed market or territory.</li>
+                    <li><strong>Verification:</strong> To conduct background checks, credit checks, and reference checks, and to otherwise verify the accuracy, truthfulness, and completeness of all information you have provided. This is a crucial step in preventing fraud and misrepresentation.</li>
+                    <li><strong>Communication:</strong> To maintain an open dialogue with you regarding the status of your application. This includes scheduling interviews, discovery days, or meetings; providing informational materials; answering your questions; and, if applicable, negotiating terms.</li>
+                    <li><strong>Legal and Compliance:</strong> To comply with all of our legal obligations, including (but not limited to) franchise disclosure laws and other applicable federal, state, and local regulations. This includes preparing and providing legally-mandated documents such as a Franchise Disclosure Document (FDD).</li>
+                    <li><strong>Internal Reporting:</strong> For internal analysis, planning, and reporting on our franchise development pipeline. When used for these purposes, your personally identifiable information will be removed or anonymized wherever feasible.</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold mt-8" style="color: var(--color-accent-dark);">How We Share Your Information</h3>
+                <p>We treat your information as highly confidential and do not sell it. We only share it in the following limited and necessary circumstances:</p>
+                <ul class="list-disc">
+                    <li><strong>Internal Personnel:</strong> With our employees, legal counsel, and consultants who are directly involved in the franchise evaluation process. All such personnel are bound by strict confidentiality obligations and access your information on a "need-to-know" basis only.</li>
+                    <li><strong>Third-Party Service Providers:</strong> With trusted vendors who perform essential services on our behalf, such as credit reporting agencies, background check providers, legal advisors, and IT system providers. These providers are contractually obligated to protect your information and are strictly prohibited from using it for any other purpose.</li>
+                    <li><strong>Legal Authorities:</strong> If we are required to do so by law, court order, or to protect and defend the rights, property, or safety of Chakra Restaurant, our franchisees, our customers, or the public.</li>
+                    <li><strong>Business Transfers:</strong> If Chakra Restaurant is involved in a merger, acquisition, or sale of assets, your information may be transferred as part of that transaction, subject to standard confidentiality agreements.</li>
+                    <li><strong>With Your Explicit Consent:</strong> We may share your information with other parties for purposes not listed here, but only after we have obtained your explicit, prior written consent.</li>
+                </ul>
+            </section>
+
+            <hr class="my-12" style="border-color: var(--color-border);">
+
+            <section class="prose-custom max-w-none mb-12">
+                <h2 class="text-3xl font-semibold mb-6" style="color: var(--color-accent-dark);">Safeguards & Rights</h2>
+                <p class="text-lg mb-6" style="color: var(--color-text-muted);">Protecting your sensitive data is a top priority. This section outlines our security measures, data retention policies, and your rights as an applicant.</p>
+
+                <h3 class="text-2xl font-semibold" style="color: var(--color-accent-dark);">Data Security</h3>
+                <p>We implement and maintain a combination of reasonable administrative, technical, and physical security measures designed to protect your information from unauthorized access, use, disclosure, alteration, or destruction. These measures include:</p>
+                <ul class="list-disc">
+                    <li>Secure socket layer (SSL) technology for encrypting data transmitted over the internet.</li>
+                    <li>Encryption of sensitive financial and personal data at rest.</li>
+                    <li>Strict access controls and authentication protocols.</li>
+                    <li>Secure data centers and network architecture.</li>
+                    <li>Regular training for our employees on data privacy and security.</li>
+                </ul>
+                <p>However, please note that no method of transmission or electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your information, we cannot guarantee its absolute security.</p>
+
+                <h3 class="text-2xl font-semibold mt-8" style="color: var(--color-accent-dark);">Data Retention</h3>
+                <ul class="list-disc">
+                    <li><strong>If your application is successful:</strong> Your information will be transferred to your permanent franchisee file and retained for the duration of your relationship with us, governed by the terms of the Franchise Agreement.</li>
+                    <li><strong>If your application is unsuccessful:</strong> We will retain your information for a reasonable period necessary to comply with legal obligations, for audit purposes, or to defend against potential legal claims. Following this period, your information will be securely and permanently destroyed or anonymized.</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold mt-8" style="color: var(--color-accent-dark);">Your Rights and Choices</h3>
+                <p>We respect your rights and control over your information.</p>
+                <ul class="list-disc">
+                    <li><strong>Access and Correction:</strong> You have the right to request reasonable access to the personal information we hold about you and to request that any inaccuracies be corrected.</li>
+                    <li class="list-disc"><strong>Withdrawal of Consent:</strong> You may withdraw your application and your consent for us to process your information at any time by contacting us in writing. Please note that such a withdrawal will terminate our ability to consider your application.</li>
+                </ul>
+                <p>To exercise these rights, please contact us using the details in the "Contact" tab. We may need to verify your identity before processing your request.</p>
+            </section>
+
+            <hr class="my-12" style="border-color: var(--color-border);">
+
+            <section class="prose-custom max-w-none mb-12">
+                <h2 class="text-3xl font-semibold mb-6" style="color: var(--color-accent-dark);">Contact & Changes</h2>
+                <p class="text-lg mb-6" style="color: var(--color-text-muted);">Here you can find our contact information for any privacy-related questions and details on how we handle changes to this policy.</p>
+
+                <h3 class="text-2xl font-semibold" style="color: var(--color-accent-dark);">Contact Us</h3>
+                <p>If you have any questions, concerns, or requests related to this Privacy Policy or our privacy practices for franchise applicants, please contact:</p>
+                <div class="p-4 rounded-lg" style="background-color: var(--color-accent-light); border: 1px solid var(--color-border);">
+                    <p class="font-semibold" style="color: var(--color-accent-dark);">Chakra Restaurant</p>
+                    <p><strong>Attn:</strong> Franchise Development Department</p>
+                    <p>[Unit 5, 841 Beaufort St, Inglewood, WA, 6052]</p>
+                    <p>[franchise@chakrarestaurant.com.au]</p>
+                    <p>[+61 430 749 700]</p>
+                </div>
+
+                <h3 class="text-2xl font-semibold mt-8" style="color: var(--color-accent-dark);">Changes to This Privacy Policy</h3>
+                <p>We may update this Privacy Policy from time to time as our practices or legal obligations change. The "Effective Date" at the top of this policy ([November 12, 2025]) will indicate when it was last revised. We encourage you to review it periodically. If we make material changes, we may notify you through the contact information you provided.</p>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const accordionContainer = document.getElementById('accordion-container');
+            if (accordionContainer) {
+                accordionContainer.addEventListener('click', function (e) {
+                    const toggle = e.target.closest('.accordion-toggle');
+                    if (toggle) {
+                        const item = toggle.closest('.accordion-item');
+                        if (item) {
+                            item.classList.toggle('open');
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+
+            </main>
+        </section>
+
+        <section id="page-training" class="view-section">
+            <main class="max-w-5xl mx-auto p-10 min-h-screen bg-stone-50 flex items-center justify-center">
+                <div class="max-w-md w-full bg-white p-8 rounded-3xl shadow-xl border border-stone-100 text-center">
+                    <h2 class="text-2xl font-headline font-bold text-secondary mb-4">Training Portal Login</h2>
+                    <form class="space-y-4">
+                        <input type="email" placeholder="Partner Email" class="w-full p-4 bg-stone-100 border-none rounded-xl">
+                        <input type="password" placeholder="Access Code" class="w-full p-4 bg-stone-100 border-none rounded-xl">
+                        <button type="button" class="w-full bg-secondary text-white font-bold py-4 rounded-xl shadow-lg">Login</button>
+                    </form>
+                </div>
+            </main>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-secondary text-center text-white py-10 mt-20">
+        <div class="max-w-5xl mx-auto px-6">
+            <p class="text-stone-400 text-sm font-bold uppercase tracking-widest">&copy; 2026 Chakra Restaurant Franchising. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Script to handle Navigation -->
+    <script>
+        function showPage(pageId) {
+            // Hide all views
+            const views = document.querySelectorAll('.view-section');
+            views.forEach(v => v.classList.remove('active'));
+
+            // Show selected view
+            const target = document.getElementById('page-' + pageId);
+            if(target) target.classList.add('active');
+
+            // Update Nav buttons
+            const buttons = document.querySelectorAll('.nav-link');
+            buttons.forEach(b => b.classList.remove('active'));
+            
+            const activeBtn = document.getElementById('btn-' + pageId);
+            if(activeBtn) activeBtn.classList.add('active');
+
+            // Close mobile menu if open
+            document.getElementById('mobile-menu').classList.add('hidden');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Initialize QR Code
+        window.onload = function() {
+            try {
+                new QRCode(document.getElementById("qrcode"), {
+                    text: "https://www.chakrarestaurant.com.au/franchise",
+                    width: 120,
+                    height: 120,
+                    colorDark : "#333333",
+                    colorLight : "#FFFFFF",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+            } catch (e) { console.error(e); }
+        };
+    </script>
+</body>
+</html>
+
