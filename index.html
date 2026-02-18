@@ -780,85 +780,65 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        function showPage(pageId) {
-            const views = document.querySelectorAll('.view-section');
-            views.forEach(v => v.classList.remove('active'));
+    // 1. Updated showPage to also update the URL hash
+    function showPage(pageId, updateHash = true) {
+        const views = document.querySelectorAll('.view-section');
+        views.forEach(v => v.classList.remove('active'));
 
-            const target = document.getElementById('page-' + pageId);
-            if(target) target.classList.add('active');
+        const target = document.getElementById('page-' + pageId);
+        if(target) target.classList.add('active');
 
-            const buttons = document.querySelectorAll('.nav-link');
-            buttons.forEach(b => b.classList.remove('active'));
-            
-            const activeBtn = document.getElementById('btn-' + pageId);
-            if(activeBtn) activeBtn.classList.add('active');
+        const buttons = document.querySelectorAll('.nav-link');
+        buttons.forEach(b => b.classList.remove('active'));
+        
+        const activeBtn = document.getElementById('btn-' + pageId);
+        if(activeBtn) activeBtn.classList.add('active');
 
-            document.getElementById('mobile-menu').classList.add('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.getElementById('mobile-menu').classList.add('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            if(pageId === 'statement') renderChart();
+        if(pageId === 'statement') renderChart();
+
+        // Update the browser URL without refreshing the page
+        if(updateHash) {
+            history.pushState(null, null, '#' + pageId);
         }
+    }
 
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
+    // 2. Logic to handle direct links (e.g., someone visits /#application)
+    function handleRouting() {
+        const hash = window.location.hash.replace('#', '');
+        const validPages = ['home', 'statement', 'application', 'privacy', 'training'];
+        
+        if (validPages.includes(hash)) {
+            showPage(hash, false);
+        } else {
+            showPage('home', false);
         }
+    }
 
-        function toggleAccordion(btn) {
-            const item = btn.closest('.accordion-item');
-            const isOpen = item.classList.contains('open');
-            // Close other accordions for a cleaner look
-            document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('open'));
-            // Toggle current
-            if (!isOpen) item.classList.add('open');
-        }
+    // Handle "Back" and "Forward" browser buttons
+    window.addEventListener('hashchange', handleRouting);
 
-        function renderChart() {
-            const ctx = document.getElementById('feesChart').getContext('2d');
-            if (window.myChart) window.myChart.destroy();
-            window.myChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Royalty (6%)', 'Reservations (2%)', 'Marketing (2%)'],
-                    datasets: [{
-                        data: [6, 2, 2],
-                        backgroundColor: ['#AE9A65', '#064E3B', '#1C1917'],
-                        borderWidth: 0,
-                        hoverOffset: 20
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { 
-                        legend: { 
-                            position: 'bottom', 
-                            labels: { 
-                                font: { family: 'Inter', size: 11, weight: 'bold' }, 
-                                padding: 30,
-                                color: '#444'
-                            } 
-                        } 
-                    }
-                }
-            });
-        }
+    window.onload = function() {
+        // Initial route check
+        handleRouting();
 
-        window.onload = function() {
-            try {
-                const qrContainer = document.getElementById("qrcode");
-                if (qrContainer) {
-                    new QRCode(qrContainer, {
-                        text: "https://www.chakrarestaurant.com.au/franchise",
-                        width: 150,
-                        height: 150,
-                        colorDark : "#1C1917",
-                        colorLight : "#FFFFFF",
-                        correctLevel : QRCode.CorrectLevel.H
-                    });
-                }
-            } catch (e) { console.error("QR Error:", e); }
-        };
-    </script>
+        // Your existing QR Code logic
+        try {
+            const qrContainer = document.getElementById("qrcode");
+            if (qrContainer) {
+                new QRCode(qrContainer, {
+                    text: "https://franchise.chakrarestaurant.com.au",
+                    width: 150,
+                    height: 150,
+                    colorDark : "#1C1917",
+                    colorLight : "#FFFFFF",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+            }
+        } catch (e) { console.error("QR Error:", e); }
+    };
+</script>
 </body>
 </html>
